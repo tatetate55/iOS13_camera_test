@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14784.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14740.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.13"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,9 +23,14 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iLU-Vt-ZWG" customClass="PreviewView" customModule="AVMultiCamPiP" customModuleProvider="target">
                                 <rect key="frame" x="290.5" y="617" width="103.5" height="184"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" secondItem="iLU-Vt-ZWG" secondAttribute="width" multiplier="16:9" id="QG3-je-SN8"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="7og-YQ-5sm" appends="YES" id="gq8-KA-F5J"/>
+                                    <outletCollection property="gestureRecognizers" destination="5xU-c6-jlh" appends="YES" id="7oc-eu-tg5"/>
+                                </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLg-cy-w81">
                                 <rect key="frame" x="167" y="771" width="80" height="30"/>
@@ -71,10 +76,22 @@
                                     <action selector="resumeInterruptedSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aDQ-Gk-zmz"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oz9-g0-qjA">
+                                <rect key="frame" x="10" y="738" width="62" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="62" id="6Uh-Nw-AAq"/>
+                                    <constraint firstAttribute="height" constant="23" id="HoO-CM-bT3"/>
+                                </constraints>
+                                <state key="normal" title="撮影"/>
+                                <connections>
+                                    <action selector="shotButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fE2-CS-RiO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="iLU-Vt-ZWG" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" priority="750" id="0S6-e3-tZV"/>
+                            <constraint firstItem="oz9-g0-qjA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="1hP-85-nCK"/>
                             <constraint firstItem="WOD-qV-bPs" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" priority="750" id="2gD-HS-Mqz"/>
                             <constraint firstItem="Wvi-Ng-fni" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="68u-Uj-ahi"/>
                             <constraint firstItem="WOD-qV-bPs" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="7Ap-XQ-8gM"/>
@@ -99,6 +116,7 @@
                             <constraint firstItem="WOD-qV-bPs" firstAttribute="height" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="height" id="vTZ-7v-zbJ"/>
                             <constraint firstItem="iLU-Vt-ZWG" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="wN6-KE-9X0"/>
                             <constraint firstItem="WOD-qV-bPs" firstAttribute="trailing" secondItem="iLU-Vt-ZWG" secondAttribute="trailing" constant="20" id="y87-Ip-Qs2"/>
+                            <constraint firstItem="SLg-cy-w81" firstAttribute="top" secondItem="oz9-g0-qjA" secondAttribute="bottom" constant="10" id="zAg-5g-tZ3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <variation key="default">
@@ -120,6 +138,7 @@
                         <outlet property="backCameraVideoPreviewView" destination="WOD-qV-bPs" id="ra6-Ok-khD"/>
                         <outlet property="cameraUnavailableLabel" destination="MNA-vj-IrB" id="DHr-gt-WAW"/>
                         <outlet property="frontCameraVideoPreviewView" destination="iLU-Vt-ZWG" id="b2V-KG-PHW"/>
+                        <outlet property="gesturedayo" destination="7og-YQ-5sm" id="YTh-do-9C5"/>
                         <outlet property="recordButton" destination="SLg-cy-w81" id="VQn-Ok-V1i"/>
                         <outlet property="resumeButton" destination="Wvi-Ng-fni" id="brr-go-csn"/>
                         <outletCollection property="frontCameraPiPConstraints" destination="2gD-HS-Mqz" collectionClass="NSMutableArray" id="hkP-yg-Awn"/>
@@ -145,6 +164,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="7og-YQ-5sm">
+                    <connections>
+                        <action selector="pinchGesture:" destination="BYZ-38-t0r" id="fv6-3m-y4U"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="5xU-c6-jlh">
+                    <connections>
+                        <action selector="panGesture:" destination="BYZ-38-t0r" id="ZLe-oo-EwS"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="114.50892857142857"/>
         </scene>

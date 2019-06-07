@@ -9,6 +9,14 @@ import UIKit
 import AVFoundation
 import Photos
 
+func -(_ left:CGPoint, _ right:CGPoint)->CGPoint{
+    return CGPoint(x:left.x - right.x, y:left.y - right.y)
+}
+// ユーティリティメソッド CGPoint同士の引き算を-で書けるようにする
+func +(_ left:CGPoint, _ right:CGPoint)->CGPoint{
+    return CGPoint(x:left.x + right.x, y:left.y + right.y)
+}
+
 class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
 	
 	// MARK: View Controller Life Cycle
@@ -233,17 +241,76 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 		
 		CATransaction.commit()
 	}
-	
-	private func updateNormalizedPiPFrame() {
-		let fullScreenVideoPreviewView: PreviewView
-		let pipVideoPreviewView: PreviewView
-		
+    
+    var fullScreenVideoPreviewView: PreviewView = PreviewView()
+    var pipVideoPreviewView: PreviewView = PreviewView()
+    
+    
+    @IBOutlet var gesturedayo: UIPinchGestureRecognizer!
+    // TODO
+    
+    var orgOrigin: CGPoint!
+    // タッチ開始時の親ビュー上のタッチ位置
+    var orgParentPoint : CGPoint!
+    
+    // ユーティリティメソッド CGPoint同士の足し算を+で書けるようにする
+
+    
+    @IBAction func panGesture(_ sender: Any) {
+        let sender =  sender as! UIPanGestureRecognizer
+        
+        switch sender.state {
+        case UIGestureRecognizerState.began:
+            // タッチ開始:タッチされたビューのoriginと親ビュー上のタッチ位置を記録しておく
+            orgOrigin = sender.view?.frame.origin
+            orgParentPoint = sender.translation(in: self.view)
+            // TODO
+            break
+        case UIGestureRecognizerState.changed:
+            // 現在の親ビュー上でのタッチ位置を求める
+            let newParentPoint = sender.translation(in: self.view)
+            // パンジャスチャの継続:タッチ開始時のビューのoriginにタッチ開始からの移動量を加算する
+            sender.view?.frame.origin = orgOrigin + newParentPoint - orgParentPoint
+            
+            break
+        default:
+            break
+        }
+        
+    }
+    
+    @IBAction func pinchGesture(_ sender: Any) {
+        let sender =  sender as! UIPinchGestureRecognizer
+        pipVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+
+//         pipVideoPreviewView.frame.size.width = 300.0
+        
+    }
+    
+    
+    @IBAction func draguGesture(_ sender: UIPanGestureRecognizer) {
+        
+        pipVideoPreviewView.frame.size.width = 300.0
+    }
+    
+    
+    
+    private func updateNormalizedPiPFrame() {
+//		let fullScreenVideoPreviewView: PreviewView
+//		let pipVideoPreviewView: PreviewView
+//        //panジェスチャーのインスタンスを作成する
+//        let gesture1 = UIPanGestureRecognizer(target: self, action: #selector(panGesture1(_:)))
+//        let gesture2 = UIPanGestureRecognizer(target: self, action: #selector(panGesture2(_:)))
+        
 		if pipDevicePosition == .back {
 			fullScreenVideoPreviewView = frontCameraVideoPreviewView
 			pipVideoPreviewView = backCameraVideoPreviewView
+
 		} else if pipDevicePosition == .front {
 			fullScreenVideoPreviewView = backCameraVideoPreviewView
 			pipVideoPreviewView = frontCameraVideoPreviewView
+//            pipVideoPreviewView.addGestureRecognizer(gesture1)
+//            pipVideoPreviewView.addGestureRecognizer(gesture2)
 		} else {
 			fatalError("Unexpected pip device position: \(pipDevicePosition)")
 		}
@@ -278,7 +345,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 	private var setupResult: SessionSetupResult = .success
 	
 	@objc dynamic private(set) var backCameraDeviceInput: AVCaptureDeviceInput?
-	
+    // TODO
 	private let backCameraVideoDataOutput = AVCaptureVideoDataOutput()
 	
 	@IBOutlet private var backCameraVideoPreviewView: PreviewView!
@@ -629,7 +696,22 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 		}
 	}
 	
-	@IBAction private func resumeInterruptedSession(_ sender: UIButton) {
+    // TODO
+    func saveToCamera(sender: UITapGestureRecognizer) {
+//        if let videoConnection = stillImageOutput.connectionWithMediaType(AVMediaTypeVideo) {
+//            stillImageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection) {
+//                (imageDataSampleBuffer, error) -> Void in
+//                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
+//                UIImageWriteToSavedPhotosAlbum(UIImage(data: imageData), nil, nil, nil)
+//            }
+//        }
+    }
+    
+    @IBAction func shotButtonAction(_ sender: Any) {
+    }
+    
+    
+    @IBAction private func resumeInterruptedSession(_ sender: UIButton) {
 		sessionQueue.async {
 			/*
 			The session might fail to start running. A failure to start the session running will be communicated via
@@ -795,6 +877,7 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 
 	}
 	
+    // 動画の保存
 	private func saveMovieToPhotoLibrary(_ movieURL: URL) {
 		PHPhotoLibrary.requestAuthorization { status in
 			if status == .authorized {
@@ -1228,4 +1311,53 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 			print("Session stopped running due to system pressure level.")
 		}
 	}
+}
+
+
+extension ViewController {
+    // 画像の保存
+    private func saveImage(image: UIImage, fileName: String = "hoge" ) -> Bool{
+        //pngで保存する場合
+//        let pngImageData = UIImagePNGRepresentation(image)
+        // jpgで保存する場合
+        let jpgImageData = image.jpegData(compressionQuality: 1.0)
+        let documentsURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(fileName)
+        do {
+            try jpgImageData!.write(to: fileURL)
+        } catch {
+            //エラー処理
+            return false
+        }
+        return true
+    }
+    
+    func save2(image: UIImage, fileName: String = "hoge") {
+        
+        // viewをimageとして取得
+//        let image : UIImage = self.viewToImage(view)
+        
+        // カメラロールに保存する
+        UIImageWriteToSavedPhotosAlbum(image,
+                                       self,
+                                       #selector(self.didFinishSavingImage(_:didFinishSavingWithError:contextInfo:)),
+                                       nil)
+    }
+    
+    // 保存を試みた結果を受け取る
+    @objc func didFinishSavingImage(_ image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
+        
+        // 結果によって出すアラートを変更する
+        var title = "保存完了"
+        var message = "カメラロールに保存しました"
+        
+        if error != nil {
+            title = "エラー"
+            message = "保存に失敗しました"
+        }
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
 }

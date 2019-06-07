@@ -31,6 +31,7 @@ class MovieRecorder {
 	}
 	
 	func startRecording() {
+        //TODOSTART
 		// Create an asset writer that records to a temporary file
 		let outputFileName = NSUUID().uuidString
 		let outputFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(outputFileName).appendingPathExtension("MOV")
