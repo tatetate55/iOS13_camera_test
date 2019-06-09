@@ -18,6 +18,7 @@
 		42E159EC227A481C00F81016 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E159EA227A481C00F81016 /* LaunchScreen.storyboard */; };
 		42E15A12227A5CB800F81016 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E15A11227A5CB800F81016 /* PreviewView.swift */; };
 		42E15A51227B8B3900F81016 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 42E15A50227B8B3900F81016 /* README.md */; };
+		D41A14E222AAD7DE00867F3F /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A14E122AAD7DE00867F3F /* UIView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		42E15A50227B8B3900F81016 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		714C7BB0714C78D000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		7173EA707173ECA000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		D41A14E122AAD7DE00867F3F /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				42E159E1227A481B00F81016 /* AppDelegate.swift */,
 				42E159E3227A481B00F81016 /* CameraViewController.swift */,
+				D41A14E122AAD7DE00867F3F /* UIView+Extension.swift */,
 				42E15A11227A5CB800F81016 /* PreviewView.swift */,
 				26584C1C2282323E00ADA373 /* MovieRecorder.swift */,
 				2673E419227D0AB7008DB6F7 /* Utilities.swift */,
@@ -176,6 +179,7 @@
 			files = (
 				2673E41C227D0F13008DB6F7 /* PiPMixer.metal in Sources */,
 				2673E417227D09AB008DB6F7 /* PiPVideoMixer.swift in Sources */,
+				D41A14E222AAD7DE00867F3F /* UIView+Extension.swift in Sources */,
 				42E159E4227A481B00F81016 /* CameraViewController.swift in Sources */,
 				42E159E2227A481B00F81016 /* AppDelegate.swift in Sources */,
 				26584C1D2282323E00ADA373 /* MovieRecorder.swift in Sources */,

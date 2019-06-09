@@ -90,7 +90,7 @@ class PiPVideoMixer {
 		var pipSize: SIMD2<Float>
 	}
 	
-	func mix(fullScreenPixelBuffer: CVPixelBuffer, pipPixelBuffer: CVPixelBuffer, fullScreenPixelBufferIsFrontCamera: Bool) -> CVPixelBuffer? {
+    func mix(fullScreenPixelBuffer: CVPixelBuffer, pipPixelBuffer: CVPixelBuffer, fullScreenPixelBufferIsFrontCamera: Bool, pipView:CGRect) -> CVPixelBuffer? {
 		guard isPrepared,
 			let outputPixelBufferPool = outputPixelBufferPool else {
 				assertionFailure("Invalid state: Not prepared")
@@ -110,8 +110,12 @@ class PiPVideoMixer {
 				return nil
 		}
 
-		let pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y) * Float(fullScreenTexture.height))
-		let pipSize = SIMD2(Float(pipFrame.size.width) * Float(pipTexture.width), Float(pipFrame.size.height) * Float(pipTexture.height))
+        // TODO ここを変える?
+//		let pipSize = SIMD2(Float(pipFrame.size.width) * Float(pipTexture.width), Float(pipFrame.size.height) * Float(pipTexture.height))
+//       let pipSize = SIMD2(Float(pipView.size.width) * Float(pipTexture.width), Float(pipView.size.height) * Float(pipTexture.height))
+        let pipPosition = SIMD2(Float(pipView.origin.x)*2, Float(pipView.origin.y)*2+10.0)
+        let pipSize = SIMD2(Float(pipView.size.width)*2, Float(pipView.size.height)*2)
+        
 		var parameters = MixerParameters(pipPosition: pipPosition, pipSize: pipSize)
 		
 		// Set up command queue, buffer, and encoder

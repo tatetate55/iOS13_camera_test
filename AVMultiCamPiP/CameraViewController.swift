@@ -981,9 +981,20 @@ class ViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDele
 		
 		// Mix the full screen pixel buffer with the pip pixel buffer
 		// When the PIP is the back camera, the primaryPixelBuffer is the front camera
+        // TODO
+//        var pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y) * Float(fullScreenTexture.height))
+//        var pipSize = SIMD2(Float(pipFrame.size.width) * Float(pipTexture.width), Float(pipFrame.size.height) * Float(pipTexture.height))
+//
+//        var pipPosition = SIMD2(Float(757.82605), Float(1387.826))
+//        var pipSize = SIMD2(Float(270.0), Float(480.0))
+//        pipPosition = SIMD2(Float(pipVideoPreviewView.left*2), Float(pipVideoPreviewView.top*2))
+//        pipSize = SIMD2(Float(pipVideoPreviewView.frame.width)*2 ,Float(pipVideoPreviewView.frame.height)*2)
+//
+        let pipView = CGRect(x: pipVideoPreviewView.right, y: pipVideoPreviewView.bottom, width: pipVideoPreviewView.frame.width, height: pipVideoPreviewView.frame.height)
+
 		guard let mixedPixelBuffer = videoMixer.mix(fullScreenPixelBuffer: fullScreenPixelBuffer,
 													pipPixelBuffer: pipPixelBuffer,
-													fullScreenPixelBufferIsFrontCamera: pipDevicePosition == .back) else {
+                                                    fullScreenPixelBufferIsFrontCamera: pipDevicePosition == .back, pipView: pipView) else {
 														print("Unable to combine video")
 														return
 		}
